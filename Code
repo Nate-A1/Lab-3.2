@@ -1,0 +1,56 @@
+#include <iostream>
+
+class Circle {
+protected:
+    double radius;
+
+public:
+    Circle(double r) {
+        radius = r;
+    }
+
+    virtual double area() { //функция площади
+        return 3.14 * radius * radius;
+    }
+
+    void print() {
+        std::cout << "Радиус: " << radius << std::endl;
+        std::cout << "Площадь: " << area() << std::endl;
+        std::cout << std::endl;
+    }
+
+    void print(double scale) {
+        std::cout << "Увеличенная площадь/объем: " << area() * scale << std::endl;
+    }
+};
+
+class Sphere : public Circle {
+public:
+    Sphere(double r) : Circle(r) {}
+
+    double area() override {
+        return (4.0 / 3.0) * 3.14 * radius * radius * radius;
+    }
+};
+
+int main() {
+
+    setlocale(LC_ALL, "ru");
+
+    Circle first(5.0);
+    Sphere second(5.0);
+
+    first.print();
+    second.print();
+
+	//статический полиморфизм
+    first.print(2.0);
+    second.print(2.0);
+	std::cout << std::endl;
+
+	//динамический полиморфизм
+    Circle* dynamicPtr = &second; // указатель типа circle указывает на объект sphere
+    dynamicPtr->print(); // вызов area() из класса sphere
+
+    return 0;
+}
